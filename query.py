@@ -14,6 +14,7 @@ for row_dict in data_list:
 # 关闭连接                                                          
 cursor.close()
 conn.close()
+
 """
 create table adepart(
 id int auto_increment primary key,
