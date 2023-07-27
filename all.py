@@ -73,3 +73,42 @@ results = execute_select(connection, select_query)
 
 # 关闭数据库连接
 disconnect_mysql(connection)
+
+"""
+# pip install dbutils
+import threading
+import pymysql
+from dbutils.pooled_db import PooledDB
+
+mysql_db_pool = PooledDB(
+    creator = pymysql, # 使用连接数据库的模块
+    maxconnections = 50, # 连接池允许的最大连接数，0表示不限制
+    mincached = 2, # 初始化时，最少创建的空闲连接数
+    maxcached = 3, # 最多闲置的连接数
+    blocking = True, # 连接池中没有可用连接时，是否阻塞等待
+    setsession = [], # 开始会话前执行的命令列表
+    ping = 0,
+    host = '127.0.0.1',
+    port = 3306,
+    user = 'root',
+    password = 'l1354866',
+    database = '数据库名',
+    charset = 'utf8'
+    )
+
+def task():
+    conn = mysql_db_pool.connection()
+    cursor = conn.cursor(pymysql.cursors.DictCursor)
+    cursor.exceute('sql语句')
+    result = cursor .fetchall()
+    print(result)
+
+    cursor.close()
+    conn.close()
+
+def run():
+    for i in range(10):
+        t = threading.Thread(target=task)
+        t.start()
+run()
+"""
